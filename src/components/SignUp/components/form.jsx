@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
+import { compose } from 'recompose';
 
 import * as ROUTES from '../../../constants/routes';
 import { withFirebase } from '../../Firebase';
@@ -184,4 +185,7 @@ const SignUpForm = ({ firebase, history }) => {
   );
 };
 
-export default withRouter(withFirebase(SignUpForm));
+export default compose(
+  withRouter,
+  withFirebase
+)(SignUpForm);
