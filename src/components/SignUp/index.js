@@ -1,7 +1,13 @@
 import React from 'react';
 
-const SignUp = () => (
-  <h1>SignUp</h1>
-);
+import SignUpForm from './components/form';
+import SignUpLink from './components/link';
+
+const SignUp = () => {
+  return (
+    <SignUpForm />
+  );
+}
 
 export default SignUp;
+export { SignUpForm, SignUpLink };
