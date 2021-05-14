@@ -1,7 +1,9 @@
 import React from 'react';
 
+import SignInForm from './components/form';
+
 const SignIn = () => (
-  <h1>SignIn</h1>
+  <SignInForm />
 );
 
 export default SignIn;
