@@ -1,23 +1,16 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import { compose } from 'recompose';
 
-import * as ROUTES from '../../../constants/routes';
-import { Input, FormErrorBox, Button } from '../../shared';
-import { SignUpLink } from '../../SignUp';
-import { PasswordForgetLink } from '../../PasswordForget';
 import { withFirebase } from '../../Firebase';
+import { Button, FormErrorBox, Input } from '../../shared';
 
-const SignInForm = ({ firebase, history }) => {
+const PasswordForgetForm = ({ firebase }) => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
-  const isInvalid = email === '' || password === '';
+  const isInvalid = email === '';
 
   const clearState = () => {
     setEmail('');
-    setPassword('');
     setError(null);
   }
 
@@ -25,21 +18,21 @@ const SignInForm = ({ firebase, history }) => {
     event.preventDefault();
 
     firebase
-      .signInWithEmailAndPassword(email, password)
+      .passwordReset(email)
       .then(() => {
         clearState();
-        history.push(ROUTES.HOME);
+        // history.push(ROUTES.HOME);
       })
       .catch(firebaseError => {
         setError(firebaseError);
-      })
+      });
   }
 
   // renders
   const renderHeader = (
     <div>
       <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-        Sign in
+        Password Forget
       </h2>
     </div>
   );
@@ -48,18 +41,6 @@ const SignInForm = ({ firebase, history }) => {
     <FormErrorBox>
       {error.message}
     </FormErrorBox>
-  );
-
-  const renderSubmitButton = (
-    <div>
-      <Button
-        type="submit"
-        disabled={isInvalid}
-        className={isInvalid ? 'disabled:opacity-50' : ''}
-      >
-        Sign up
-      </Button>
-    </div>
   );
 
   const renderEmailField = (
@@ -76,23 +57,21 @@ const SignInForm = ({ firebase, history }) => {
     />
   );
 
-  const renderPasswordField = (
-    <Input
-      label="Password"
-      id="password"
-      name="password"
-      value={password}
-      onChange={e => setPassword(e.target.value)}
-      className="rounded-b-md"
-      type="password"
-      required
-    />
-  );
-
   const renderFields = (
     <div className="rounded-md shadow-sm -space-y-px">
       {renderEmailField}
-      {renderPasswordField}
+    </div>
+  );
+
+  const renderSubmitButton = (
+    <div>
+      <Button
+        type="submit"
+        disabled={isInvalid}
+        className={isInvalid ? 'disabled:opacity-50' : ''}
+      >
+        Reset my password
+      </Button>
     </div>
   );
 
@@ -113,14 +92,9 @@ const SignInForm = ({ firebase, history }) => {
         {renderHeader}
         {renderError}
         {renderForm}
-        <PasswordForgetLink />
-        <SignUpLink />
       </div>
     </div>
   );
-};
+}
 
-export default compose(
-  withRouter,
-  withFirebase
-)(SignInForm);
+export default withFirebase(PasswordForgetForm);
