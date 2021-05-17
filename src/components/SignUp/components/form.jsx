@@ -3,7 +3,8 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 
 import * as ROUTES from '../../../constants/routes';
-import { Input, FormErrorBox, Button } from '../../shared';
+import * as ROLES from '../../../constants/roles';
+import { Input, Checkbox, FormErrorBox, Button } from '../../shared';
 import { withFirebase } from '../../Firebase';
 
 const SignUpForm = ({ firebase, history }) => {
@@ -11,6 +12,7 @@ const SignUpForm = ({ firebase, history }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
   const [error, setError] = useState(null);
 
 
@@ -30,6 +32,13 @@ const SignUpForm = ({ firebase, history }) => {
 
   const handleSubmit = event => {
     event.preventDefault();
+
+    const roles = {};
+
+    if (isAdmin) {
+      roles[ROLES.ADMIN] = ROLES.ADMIN;
+    }
+
     firebase
       .createUserWithEmailAndPassword(email, password)
       .then(authUser => {
@@ -38,6 +47,7 @@ const SignUpForm = ({ firebase, history }) => {
           .set({
             username,
             email,
+            roles,
           })
       })
       .then(() => {
@@ -100,12 +110,22 @@ const SignUpForm = ({ firebase, history }) => {
     />
   );
 
+  const renderOptionAdmin = (
+    <Checkbox
+      id="admin"
+      label="Admin"
+      value={isAdmin}
+      onChange={e => setIsAdmin(e.target.checked)}
+    />
+  );
+
   const renderFields = (
     <div className="rounded-md shadow-sm -space-y-px">
       {renderUsernameField}
       {renderEmailField}
       {renderPasswordField}
       {renderPasswordConfirmField}
+      {renderOptionAdmin}
     </div>
   );
 

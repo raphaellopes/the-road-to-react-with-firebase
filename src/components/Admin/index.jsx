@@ -55,7 +55,10 @@ const Admin = ({ firebase }) => {
   );
 };
 
-// const condition = authUser => authUser && !!authUser.roles[ROLES.ADMIN]
-const condition = authUser => !!authUser
+const condition = authUser => {
+  console.log('condition >>>', { authUser });
+  return authUser && !!authUser.roles[ROLES.ADMIN];
+  // return !!authUser;
+}
 
 export default withAuthorization(condition)(Admin);

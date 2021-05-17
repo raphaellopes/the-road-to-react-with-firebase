@@ -8,14 +8,12 @@ const withAuthentication = Component => {
     const [authUser, setAuthUser] = useState(null);
 
     useEffect(() => {
-      const subscribe = firebase.auth.onAuthStateChanged(user => {
-        console.log('>>>', { user });
-        if (user) {
+      const subscribe = firebase.onAuthUserListener(
+        user => {
           setAuthUser(user);
-        } else {
-          setAuthUser(null);
-        }
-      });
+        },
+        () => setAuthUser(null)
+      );
 
       return function cleanUp() {
         subscribe();

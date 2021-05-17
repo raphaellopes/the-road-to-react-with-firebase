@@ -24,6 +24,18 @@ const AdminUserList = ({ users }) => {
     );
   }
 
+  const renderRoles = user => {
+    const { roles } = user;
+    const rolesArray = roles ? Object.keys(roles) : ['-'];
+    return (
+      <td className="px-6 py-4 whitespace-nowrap">
+        <div className="text-sm text-gray-900">
+          {rolesArray.map(role => role).join(', ')}
+        </div>
+      </td>
+    );
+  }
+
   const renderBody = () => {
     return (
       <tbody className="bg-white divide-y divide-gray-200">
@@ -44,6 +56,7 @@ const AdminUserList = ({ users }) => {
                 </div>
               </div>
             </td>
+            {renderRoles(user)}
           </tr>
         ))}
       </tbody>
