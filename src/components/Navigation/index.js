@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import * as ROUTES from '../../constants/routes';
+import SignOutButton from '../SignOut';
 
 // @TODO: Refactoring style
 const Navigation = () => {
@@ -49,6 +50,7 @@ const Navigation = () => {
         >
           Sign In
         </Link>
+        <SignOutButton />
       </div>
     </div>
   );
