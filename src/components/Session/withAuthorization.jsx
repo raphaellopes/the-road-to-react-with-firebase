@@ -26,7 +26,7 @@ const withAuthorization = condition => Component => {
 
     return condition(authUser)
       ? (
-        <Component {...props} />
+        <Component firebase={firebase} {...props} />
       )
       : null;
   }

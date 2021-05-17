@@ -33,6 +33,14 @@ const SignUpForm = ({ firebase, history }) => {
     firebase
       .createUserWithEmailAndPassword(email, password)
       .then(authUser => {
+        return firebase
+          .user(authUser.user.uid)
+          .set({
+            username,
+            email,
+          })
+      })
+      .then(() => {
         clearState();
         history.push(ROUTES.HOME);
       })
