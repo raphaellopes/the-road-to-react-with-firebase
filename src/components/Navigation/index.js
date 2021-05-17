@@ -5,52 +5,61 @@ import * as ROUTES from '../../constants/routes';
 import SignOutButton from '../SignOut';
 
 // @TODO: Refactoring style
-const Navigation = () => {
+const Navigation = ({ authUser }) => {
   const getSelectedPageClass = selected => selected
     ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'
     : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium';
 
-  const renderLinks = (
-    <div className="hidden md:block">
-      <div className="ml-10 flex items-baseline space-x-4">
-        <Link
-          to={ROUTES.LANDING}
-          className={getSelectedPageClass(true)}
-        >
-          Landing
-        </Link>
-        <Link
-          to={ROUTES.HOME}
-          className={getSelectedPageClass(false)}
-        >
-          Home
-        </Link>
-        <Link
-          to={ROUTES.ACCOUNT}
-          className={getSelectedPageClass(false)}
-        >
-          Account
-        </Link>
-        <Link
-          to={ROUTES.ADMIN}
-          className={getSelectedPageClass(false)}
-        >
-          Admin
-        </Link>
-      </div>
-    </div>
+  const renderLinksNonAuth = (
+    <Link
+      to={ROUTES.LANDING}
+      className={getSelectedPageClass(true)}
+    >
+      Landing
+    </Link>
+  );
+
+  const renderLinksAuth = (
+    <>
+      <Link
+        to={ROUTES.LANDING}
+        className={getSelectedPageClass(true)}
+      >
+        Landing
+      </Link>
+      <Link
+        to={ROUTES.HOME}
+        className={getSelectedPageClass(false)}
+      >
+        Home
+      </Link>
+      <Link
+        to={ROUTES.ACCOUNT}
+        className={getSelectedPageClass(false)}
+      >
+        Account
+      </Link>
+      <Link
+        to={ROUTES.ADMIN}
+        className={getSelectedPageClass(false)}
+      >
+        Admin
+      </Link>
+    </>
   );
 
   const renderSideLinks = (
     <div className="hidden md:block">
       <div className="ml-4 flex items-center md:ml-6">
-        <Link
-          to={ROUTES.SIGN_IN}
-          className="bg-purple-600 text-white px-3 py-2 rounded-md text-sm font-medium"
-        >
-          Sign In
-        </Link>
-        <SignOutButton />
+        {!authUser && (
+          <Link
+            to={ROUTES.SIGN_IN}
+            className="bg-purple-600 text-white px-3 py-2 rounded-md text-sm font-medium"
+          >
+            Sign In
+          </Link>
+        )}
+        {authUser && <SignOutButton />}
       </div>
     </div>
   );
@@ -67,11 +76,13 @@ const Navigation = () => {
                 alt="Workflow"
               />
             </div>
-            {renderLinks}
+            <div className="hidden md:block">
+              <div className="ml-10 flex items-baseline space-x-4">
+                {authUser ? renderLinksAuth : renderLinksNonAuth}
+              </div>
+            </div>
           </div>
-
           {renderSideLinks}
-
         </div>
       </div>
     </nav>
