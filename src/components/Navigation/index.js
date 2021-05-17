@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Link } from 'react-router-dom';
 
 import * as ROUTES from '../../constants/routes';
+import { AuthUserContext } from '../Session';
 import SignOutButton from '../SignOut';
 
 // @TODO: Refactoring style
-const Navigation = ({ authUser }) => {
+const Navigation = () => {
+  const authUser = useContext(AuthUserContext);
+
   const getSelectedPageClass = selected => selected
     ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'
     : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium';
