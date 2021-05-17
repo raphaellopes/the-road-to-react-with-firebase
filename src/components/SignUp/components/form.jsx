@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 
 import * as ROUTES from '../../../constants/routes';
+import { Input } from '../../shared';
 import { withFirebase } from '../../Firebase';
 
 const SignUpForm = ({ firebase, history }) => {
@@ -42,76 +43,53 @@ const SignUpForm = ({ firebase, history }) => {
 
   // renders
   const renderUsernameField = (
-    <div>
-      <label htmlFor="username" className="sr-only">
-        Full Name
-      </label>
-      <input
-        id="username"
-        name="username"
-        value={username}
-        onChange={e => setUsername(e.target.value)}
-        type="text"
-        required
-        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
-        placeholder="Full Name"
-      />
-    </div>
+    <Input
+      label="Full Name"
+      id="username"
+      name="username"
+      value={username}
+      onChange={e => setUsername(e.target.value)}
+      className="rounded-t-md"
+      required
+    />
   );
 
   const renderEmailField = (
-    <div>
-      <label htmlFor="email" className="sr-only">
-        Email
-      </label>
-      <input
-        id="email"
-        name="email"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        type="email"
-        autoComplete="email"
-        required
-        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
-        placeholder="Email"
-      />
-    </div>
-  );
+    <Input
+      label="Email"
+      id="email"
+      name="email"
+      value={email}
+      onChange={e => setEmail(e.target.value)}
+      type="email"
+      autoComplete="email"
+      required
+    />
+);
 
   const renderPasswordField = (
-    <div>
-      <label htmlFor="password" className="sr-only">
-        Password
-      </label>
-      <input
-        id="password"
-        name="password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-        type="password"
-        required
-        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
-        placeholder="Password"
-      />
-    </div>
+    <Input
+      label="Password"
+      id="password"
+      name="password"
+      value={password}
+      onChange={e => setPassword(e.target.value)}
+      type="password"
+      required
+    />
   );
 
   const renderPasswordConfirmField = (
-    <div>
-      <label htmlFor="password-confirm" className="sr-only">
-        Ccnfirm Password
-      </label>
-      <input
-        id="password-confirm"
-        name="passwordConfirm"
-        value={passwordConfirm}
-        onChange={e => setPasswordConfirm(e.target.value)}
-        type="password"
-        required
-        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
-        placeholder="Confirm Password"
-      />
-    </div>
+    <Input
+      label="Confirm Password"
+      id="password-confirm"
+      name="passwordConfirm"
+      value={passwordConfirm}
+      onChange={e => setPasswordConfirm(e.target.value)}
+      className="rounded-b-md"
+      type="password"
+      required
+    />
   );
 
   const renderFields = (
