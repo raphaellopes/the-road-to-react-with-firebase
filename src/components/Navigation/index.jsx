@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import { Link } from 'react-router-dom';
 
 import * as ROUTES from '../../constants/routes';
+import * as ROLES from '../../constants/roles';
 import { AuthUserContext } from '../Session';
 import SignOutButton from '../SignOut';
 
@@ -12,6 +13,8 @@ const Navigation = () => {
   const getSelectedPageClass = selected => selected
     ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'
     : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium';
+
+  const isAdmin = authUser && !!authUser.roles[ROLES.ADMIN];
 
   const renderLinksNonAuth = (
     <Link
@@ -42,12 +45,14 @@ const Navigation = () => {
       >
         Account
       </Link>
-      <Link
-        to={ROUTES.ADMIN}
-        className={getSelectedPageClass(false)}
-      >
-        Admin
-      </Link>
+      {isAdmin && (
+        <Link
+          to={ROUTES.ADMIN}
+          className={getSelectedPageClass(false)}
+        >
+          Admin
+        </Link>
+      )}
     </>
   );
 

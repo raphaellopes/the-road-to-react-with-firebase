@@ -13,8 +13,6 @@ const Admin = ({ firebase }) => {
   useEffect(() => {
     setLoading(true);
 
-    console.log('>>> admin', firebase);
-
     firebase.users().on('value', snapshot => {
       const usersObject = snapshot.val();
       const usersList = Object.keys(usersObject).map(uid => ({
@@ -29,8 +27,6 @@ const Admin = ({ firebase }) => {
       firebase.users().off();
     }
   }, [])
-
-  console.log('>>> admin', { users });
 
   const renderHeader = (
     <header className="bg-white shadow">
@@ -65,9 +61,7 @@ const Admin = ({ firebase }) => {
 };
 
 const condition = authUser => {
-  console.log('condition >>>', { authUser });
   return authUser && !!authUser.roles[ROLES.ADMIN];
-  // return !!authUser;
 }
 
 export default compose(
