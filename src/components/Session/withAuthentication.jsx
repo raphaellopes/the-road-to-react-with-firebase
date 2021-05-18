@@ -5,17 +5,24 @@ import { withFirebase } from '../Firebase';
 
 const withAuthentication = Component => {
   const WithAuthentication = ({ firebase, ...props }) => {
-    const [authUser, setAuthUser] = useState(null);
+    const [authUser, setAuthUser] = useState(
+      JSON.parse(localStorage.getItem('authUser'))
+    );
 
     useEffect(() => {
       const subscribe = firebase.onAuthUserListener(
         user => {
+          localStorage.setItem(
+            'authUser',
+            JSON.stringify(user)
+          );
           setAuthUser(user);
         },
         () => setAuthUser(null)
       );
 
       return function cleanUp() {
+        localStorage.removeItem('authUser');
         subscribe();
       }
     }, []);
