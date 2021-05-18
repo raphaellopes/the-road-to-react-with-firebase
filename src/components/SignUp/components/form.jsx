@@ -6,6 +6,7 @@ import * as ROUTES from '../../../constants/routes';
 import * as ROLES from '../../../constants/roles';
 import { Input, Checkbox, FormErrorBox, Button } from '../../shared';
 import { withFirebase } from '../../Firebase';
+import * as LOCAL_CONST from './constants';
 
 const SignUpForm = ({ firebase, history }) => {
   const [username, setUsername] = useState('');
@@ -55,6 +56,9 @@ const SignUpForm = ({ firebase, history }) => {
         history.push(ROUTES.HOME);
       })
       .catch(firebaseError => {
+        if (firebaseError.code === LOCAL_CONST.ERROR_CODE_ACCOUNT_EXISTS) {
+          firebaseError.message = LOCAL_CONST.ERROR_MSG_ACCOUNT_EXIXTS
+        }
         setError(firebaseError);
       })
   }

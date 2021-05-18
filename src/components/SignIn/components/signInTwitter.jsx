@@ -5,6 +5,7 @@ import { compose } from 'recompose';
 import { withFirebase } from '../../Firebase';
 import * as ROUTES from '../../../constants/routes';
 import { FormErrorBox, Button } from '../../shared';
+import * as LOCAL_CONST from './constants';
 
 
 const SignInTwitter = ({ firebase, history }) => {
@@ -28,6 +29,9 @@ const SignInTwitter = ({ firebase, history }) => {
         history.push(ROUTES.HOME);
       })
       .catch(firebaseError => {
+        if (firebaseError.code === LOCAL_CONST.ERROR_CODE_ACCOUNT_EXISTS) {
+          firebaseError.message = LOCAL_CONST.ERROR_MSG_ACCOUNT_EXIXTS;
+        }
         setError(firebaseError);
       });
   }
