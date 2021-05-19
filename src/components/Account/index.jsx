@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
+import { compose } from 'recompose';
 
-import { withAuthorization, AuthUserContext } from '../Session';
+import { withAuthorization, AuthUserContext, withEmailVerification } from '../Session';
 import { PasswordForgetForm } from '../PasswordForget';
 import { PasswordChangeForm } from '../PasswordChange';
 import { HeaderContainer } from '../shared';
@@ -19,17 +20,20 @@ const Account = () => {
   return (
     <>
       {renderHeader}
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <PasswordForgetForm />
-        <PasswordChangeForm />
-        <LoginManagement authUser={authUser} />
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8">
+          <PasswordForgetForm />
+          <PasswordChangeForm />
+          <LoginManagement authUser={authUser} />
+        </div>
       </div>
-    </div>
     </>
   );
 }
 
 const condition = authUser => !!authUser;
 
-export default withAuthorization(condition)(Account);
+export default compose(
+  withEmailVerification,
+  withAuthorization(condition)
+)(Account);

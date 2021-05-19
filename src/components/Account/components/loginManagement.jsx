@@ -41,6 +41,9 @@ const LoginManagement = ({ firebase, authUser }) => {
       .then(fetchSignMethods)
       .catch(firebaseError => {
         setError(firebaseError);
+      })
+      .finally(() => {
+        setLoading('');
       });
   }
 
@@ -50,6 +53,9 @@ const LoginManagement = ({ firebase, authUser }) => {
       .then(fetchSignMethods)
       .catch(firebaseError => {
         setError(firebaseError);
+      })
+      .finally(() => {
+        setLoading('');
       });
   }
 

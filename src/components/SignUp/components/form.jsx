@@ -52,6 +52,9 @@ const SignUpForm = ({ firebase, history }) => {
           })
       })
       .then(() => {
+        return firebase.sendEmailVerification();
+      })
+      .then(() => {
         clearState();
         history.push(ROUTES.HOME);
       })
