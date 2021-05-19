@@ -9,6 +9,7 @@ import SocialLoginToggle from './socialLoginToggle';
 const LoginManagement = ({ firebase, authUser }) => {
   const [activeSignInMethods, setActiveSignInMethods] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState('');
 
   useEffect(() => {
     fetchSignMethods();
@@ -23,6 +24,9 @@ const LoginManagement = ({ firebase, authUser }) => {
       })
       .catch(firebaseError => {
         setError(firebaseError);
+      })
+      .finally(() => {
+        setLoading('');
       });
   }
 
@@ -50,11 +54,15 @@ const LoginManagement = ({ firebase, authUser }) => {
   }
 
   const onUnlink = providerId => {
+    setLoading(providerId);
     firebase.auth.currentUser
       .unlink(providerId)
       .then(fetchSignMethods)
       .catch(firebaseError => {
         setError(firebaseError);
+      })
+      .finally(() => {
+        setLoading('');
       });
   }
 
@@ -78,8 +86,12 @@ const LoginManagement = ({ firebase, authUser }) => {
               onlyOneLeft={onlyOneLeft}
               isEnabled={isEnabled}
               signInMethod={{ id, provider }}
-              onLink={onDefaultLoginLink}
+              onLink={value => {
+                onDefaultLoginLink(value);
+                setLoading(id);
+              }}
               onUnlink={onUnlink}
+              loading={loading === id}
             />
           )
           : (
@@ -87,8 +99,12 @@ const LoginManagement = ({ firebase, authUser }) => {
               onlyOneLeft={onlyOneLeft}
               isEnabled={isEnabled}
               signInMethod={{ id, provider }}
-              onLink={onSocialLoginLink}
+              onLink={password => {
+                onSocialLoginLink(password);
+                setLoading(id);
+              }}
               onUnlink={onUnlink}
+              loading={loading === id}
             />
           )
         }

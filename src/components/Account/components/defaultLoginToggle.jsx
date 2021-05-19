@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 
 import { Button, Input } from '../../shared';
 
-const DefaultLoginLink = ({ isEnabled, onlyOneLeft, onUnlink, onLink, signInMethod }) => {
+const DefaultLoginLink = ({
+  isEnabled, onlyOneLeft, onUnlink, onLink, signInMethod, loading
+}) => {
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
@@ -81,7 +83,11 @@ const DefaultLoginLink = ({ isEnabled, onlyOneLeft, onUnlink, onLink, signInMeth
     </form>
   );
 
-  return isEnabled ? renderEnabled : renderDeactivate;
+  const renderLoading = (
+    <p className="text-center text-gray-900 w-full">Loading...</p>
+  );
+
+  return loading ? renderLoading : isEnabled ? renderEnabled : renderDeactivate;
 }
 
 export default DefaultLoginLink;
