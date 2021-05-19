@@ -14,6 +14,7 @@ const SignInTwitter = ({ firebase, history }) => {
   const handleSubmit = event => {
     event.preventDefault();
 
+    // NOTE: To get email from
     firebase
       .signInWithTwitter()
       .then(socialAuthUser => {

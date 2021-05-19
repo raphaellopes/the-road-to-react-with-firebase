@@ -87,7 +87,7 @@ const SignUpForm = ({ firebase, history }) => {
       autoComplete="email"
       required
     />
-);
+  );
 
   const renderPasswordField = (
     <Input

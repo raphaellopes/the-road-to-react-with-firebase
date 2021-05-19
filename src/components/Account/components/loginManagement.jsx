@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
 import { withFirebase } from '../../Firebase';
-import { Button } from '../../shared';
 import { SIGN_IN_METHODS } from '../constants';
+import { FormErrorBox } from '../../shared';
+import DefaultLoginToggle from './defaultLoginToggle';
+import SocialLoginToggle from './socialLoginToggle';
 
 const LoginManagement = ({ firebase, authUser }) => {
   const [activeSignInMethods, setActiveSignInMethods] = useState([]);
@@ -19,6 +21,20 @@ const LoginManagement = ({ firebase, authUser }) => {
         setActiveSignInMethods(firebaseSignInMethods);
         setError(null);
       })
+      .catch(firebaseError => {
+        setError(firebaseError);
+      });
+  }
+
+  const onDefaultLoginLink = password => {
+    const credential = firebase.emailAuthProvider.credential(
+      authUser.email,
+      password
+    );
+
+    firebase.auth.currentUser
+      .linkAndRetrieveDataWithCredential(credential)
+      .then(fetchSignMethods)
       .catch(firebaseError => {
         setError(firebaseError);
       });
@@ -42,6 +58,12 @@ const LoginManagement = ({ firebase, authUser }) => {
       });
   }
 
+  const renderError = error && (
+    <FormErrorBox>
+      {error.message}
+    </FormErrorBox>
+  );
+
   const renderItem = ({ id, provider }) => {
     const  onlyOneLeft = activeSignInMethods.length === 1;
     const isEnabled = activeSignInMethods.includes(id);
@@ -50,22 +72,37 @@ const LoginManagement = ({ firebase, authUser }) => {
         key={id}
         className="pl-3 pr-4 py-3 flex items-center justify-between text-sm hover:bg-gray-200"
       >
-        <Button
-          onClick={() => isEnabled ? onUnlink(id) : onSocialLoginLink(provider)}
-          disabled={isEnabled && onlyOneLeft}
-        >
-          {isEnabled ? 'Deactivate' : 'Link'}{' '}{id}
-        </Button>
+        {id === 'password'
+          ? (
+            <DefaultLoginToggle
+              onlyOneLeft={onlyOneLeft}
+              isEnabled={isEnabled}
+              signInMethod={{ id, provider }}
+              onLink={onDefaultLoginLink}
+              onUnlink={onUnlink}
+            />
+          )
+          : (
+            <SocialLoginToggle
+              onlyOneLeft={onlyOneLeft}
+              isEnabled={isEnabled}
+              signInMethod={{ id, provider }}
+              onLink={onSocialLoginLink}
+              onUnlink={onUnlink}
+            />
+          )
+        }
       </li>
     );
   };
 
   return (
     <div>
-      <p className="text-sm font-medium text-gray-500">
+      <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
         Sign In Methods:
-      </p>
-      <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
+      </h2>
+      {renderError}
+      <ul className="mt-4 border border-gray-200 rounded-md divide-y divide-gray-200">
         {SIGN_IN_METHODS.map(renderItem)}
       </ul>
     </div>
