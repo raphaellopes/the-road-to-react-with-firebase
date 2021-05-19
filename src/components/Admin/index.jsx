@@ -4,6 +4,7 @@ import { compose } from 'recompose';
 import * as ROLES from '../../constants/roles';
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
+import { HeaderContainer } from '../shared';
 import AdminUserList from './components/user-list';
 
 const Admin = ({ firebase }) => {
@@ -29,13 +30,9 @@ const Admin = ({ firebase }) => {
   }, [])
 
   const renderHeader = (
-    <header className="bg-white shadow">
-      <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-gray-900">
-          Admin
-        </h1>
-      </div>
-    </header>
+    <HeaderContainer>
+      Admin
+    </HeaderContainer>
   );
 
   const renderDescription = (
