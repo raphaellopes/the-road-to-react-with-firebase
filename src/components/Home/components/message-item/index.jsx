@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Button, Input } from '../../../shared';
 
-const MessageItem = ({ message, onRemoveMessage, onEditMessage }) => {
+const MessageItem = ({ message, onRemoveMessage, onEditMessage, authUser }) => {
   const [editMode, setEditMode] = useState(false);
   const [editText, setEditText] = useState(message.text);
 
@@ -71,7 +71,7 @@ const MessageItem = ({ message, onRemoveMessage, onEditMessage }) => {
     </Button>
   );
 
-  const renderActionButtons = (
+  const renderActionButtons = authUser.uid === message.userId && (
     <div className="flex">
       {renderRemoveButton}
       {renderEditButton}

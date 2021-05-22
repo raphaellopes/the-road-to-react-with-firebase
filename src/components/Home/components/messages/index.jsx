@@ -15,22 +15,25 @@ const Messages = ({ firebase }) => {
   useEffect(() => {
     setLoading(true);
 
-    firebase.messages().on('value', snapshot => {
-      const messageObject = snapshot.val();
+    firebase
+      .messages()
+      .orderByChild('createdAt')
+      .on('value', snapshot => {
+        const messageObject = snapshot.val();
 
-      if (messageObject) {
-        const messageList = Object.keys(messageObject).map(key => ({
-          ...messageObject[key],
-          uid: key
-        }));
+        if (messageObject) {
+          const messageList = Object.keys(messageObject).map(key => ({
+            ...messageObject[key],
+            uid: key
+          }));
 
-        setMessages(messageList);
-        setLoading(false);
-      } else {
-        setLoading(false);
-        setMessages(null);
-      }
-    });
+          setMessages(messageList);
+          setLoading(false);
+        } else {
+          setLoading(false);
+          setMessages(null);
+        }
+      });
 
     return function cleanUp() {
       firebase.messages().off();
@@ -88,6 +91,7 @@ const Messages = ({ firebase }) => {
   const renderMessage = message => (
     <MessageItem
       key={message.uid}
+      authUser={authUser}
       message={message}
       onRemoveMessage={handleRemoveMessage}
       onEditMessage={handleEditMessage}
