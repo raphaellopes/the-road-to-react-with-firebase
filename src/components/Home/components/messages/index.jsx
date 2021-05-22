@@ -6,18 +6,22 @@ import { Spinner, Input, Button } from '../../../shared';
 
 import MessageItem from '../message-item';
 
+const PAGE_LIMIT = 2;
+
 const Messages = ({ firebase }) => {
   const authUser = useContext(AuthUserContext);
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState('');
+  const [limit, setLimit] = useState(PAGE_LIMIT);
 
-  useEffect(() => {
+  const onListemForMessages = () => {
     setLoading(true);
 
     firebase
       .messages()
       .orderByChild('createdAt')
+      .limitToLast(limit)
       .on('value', snapshot => {
         const messageObject = snapshot.val();
 
@@ -34,11 +38,21 @@ const Messages = ({ firebase }) => {
           setMessages(null);
         }
       });
+  }
+
+  useEffect(() => {
+    onListemForMessages();
 
     return function cleanUp() {
       firebase.messages().off();
     }
   }, []);
+
+  useEffect(() => {
+    if (limit > PAGE_LIMIT) {
+      onListemForMessages();
+    }
+  }, [limit])
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -68,6 +82,10 @@ const Messages = ({ firebase }) => {
         editedAt: firebase.serverValue.TIMESTAMP,
       });
   };
+
+  const handleNextPage = () => {
+    setLimit(limit + PAGE_LIMIT);
+  }
 
   // renders
   const renderForm = (
@@ -108,11 +126,20 @@ const Messages = ({ firebase }) => {
       <p className="font-normal text-center">The are no messages ...</p>
     );
 
+  const renderMore = !loading && messages && (
+    <Button
+      onClick={handleNextPage}
+    >
+      More
+    </Button>
+  );
+
   const renderLoading = loading && <Spinner />;
 
   return (
     <div className="mb-14">
       {renderLoading}
+      {renderMore}
       {renderList}
       {renderForm}
     </div>
