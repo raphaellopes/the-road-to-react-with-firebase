@@ -49,6 +49,10 @@ const Messages = ({ firebase }) => {
 
   const handleChange = event => setText(event.target.value);
 
+  const handleRemoveMessage = uid => {
+    firebase.message(uid).remove();
+  };
+
   // renders
   const renderForm = (
     <div className="fixed bottom-0 left-0 right-0 bg-white">
@@ -69,10 +73,19 @@ const Messages = ({ firebase }) => {
   );
 
   const renderMessage = message => (
-    <li key={message.uid} className="p-4 flex space-x-4">
-      <p className="font-normal">
-        <strong className="text-black">{message.userId}:</strong> {message.text}
+    <li key={message.uid} className="py-4 flex space-x-4">
+      <p className="font-normal flex-1">
+        <strong className="text-black">{message.userId}:</strong> <br />
+        {message.text}
       </p>
+      <Button
+        onClick={() => handleRemoveMessage(message.uid)}
+        full={false}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+        </svg>
+      </Button>
     </li>
   );
 
