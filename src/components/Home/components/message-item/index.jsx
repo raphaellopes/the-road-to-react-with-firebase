@@ -6,6 +6,8 @@ const MessageItem = ({ message, onRemoveMessage, onEditMessage, authUser }) => {
   const [editMode, setEditMode] = useState(false);
   const [editText, setEditText] = useState(message.text);
 
+  const isSameAutor = message.userId === authUser.uid;
+
   const handleToggleEditMode = () => {
     setEditMode(!editMode);
     setEditText(message.text);
@@ -71,7 +73,7 @@ const MessageItem = ({ message, onRemoveMessage, onEditMessage, authUser }) => {
     </Button>
   );
 
-  const renderActionButtons = authUser.uid === message.userId && (
+  const renderActionButtons = isSameAutor && (
     <div className="flex">
       {renderRemoveButton}
       {renderEditButton}
@@ -82,7 +84,9 @@ const MessageItem = ({ message, onRemoveMessage, onEditMessage, authUser }) => {
 
   const renderText = !editMode && (
     <p className="font-normal flex-1">
-      <strong className="text-black">{message.userId}:</strong> <br />
+      <strong className="text-black">
+        {isSameAutor ? 'me' : message.user.username }:
+      </strong> <br />
       {message.text} <br />
       {message.editedAt && <span className="text-xs text-gray-400">(Edited)</span>}
     </p>

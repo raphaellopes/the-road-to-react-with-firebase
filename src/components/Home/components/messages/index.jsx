@@ -6,7 +6,7 @@ import { Spinner, Input, Button } from '../../../shared';
 
 import MessageItem from '../message-item';
 
-const PAGE_LIMIT = 2;
+const PAGE_LIMIT = 5;
 
 const Messages = ({ firebase }) => {
   const authUser = useContext(AuthUserContext);
@@ -14,30 +14,50 @@ const Messages = ({ firebase }) => {
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState('');
   const [limit, setLimit] = useState(PAGE_LIMIT);
+  const [users, setUsers] = useState([]);
+
+  const onListemForUsers = () => {
+    firebase
+      .users()
+      .on('value', snapshot => {
+        const usersObject = snapshot.val();
+        const usersList = Object.keys(usersObject).map(uid => ({
+          ...usersObject[uid],
+          uid
+        }))
+        setUsers(usersList);
+      })
+  }
 
   const onListemForMessages = () => {
     setLoading(true);
 
-    firebase
-      .messages()
-      .orderByChild('createdAt')
-      .limitToLast(limit)
-      .on('value', snapshot => {
-        const messageObject = snapshot.val();
+    if (!users.length) {
+      onListemForUsers();
+    } else {
+      firebase
+        .messages()
+        .orderByChild('createdAt')
+        .limitToLast(limit)
+        .on('value', snapshot => {
+          const messageObject = snapshot.val();
 
-        if (messageObject) {
-          const messageList = Object.keys(messageObject).map(key => ({
-            ...messageObject[key],
-            uid: key
-          }));
+          if (messageObject) {
+            const messageList = Object.keys(messageObject).map(key => ({
+              ...messageObject[key],
+              uid: key,
+              user: users.find(user => user.uid === messageObject[key].userId),
+            }));
+          console.log('>>>', messageList);
 
-          setMessages(messageList);
-          setLoading(false);
-        } else {
-          setLoading(false);
-          setMessages(null);
-        }
-      });
+            setMessages(messageList);
+            setLoading(false);
+          } else {
+            setLoading(false);
+            setMessages(null);
+          }
+        });
+    }
   }
 
   useEffect(() => {
@@ -45,8 +65,9 @@ const Messages = ({ firebase }) => {
 
     return function cleanUp() {
       firebase.messages().off();
+      firebase.users().off();
     }
-  }, []);
+  }, [users]);
 
   useEffect(() => {
     if (limit > PAGE_LIMIT) {
