@@ -19,9 +19,13 @@ class Firebase {
     this.emailAuthProvider = app.auth.EmailAuthProvider;
     this.auth = app.auth();
     this.db = app.database();
+
+    // helpers
     this.googleProvider = new app.auth.GoogleAuthProvider();
     this.facebookProvider = new app.auth.FacebookAuthProvider();
     this.twitterProvider = new app.auth.TwitterAuthProvider();
+
+    this.serverValue = app.database.ServerValue;
   }
 
   // Auth API
