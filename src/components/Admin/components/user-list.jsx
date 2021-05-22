@@ -72,7 +72,12 @@ const AdminUserList = ({ firebase }) => {
                 </div>
                 <div className="ml-4">
                   <div className="text-sm font-medium text-gray-900">
-                    <Link to={`${ROUTES.ADMIN}/${user.uid}`}>
+                    <Link
+                      to={{
+                        pathname: `${ROUTES.ADMIN}/${user.uid}`,
+                        state: { user }
+                      }}
+                    >
                       {user.username}
                     </Link>
                   </div>
