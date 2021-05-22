@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import * as ROUTES from '../../../constants/routes';
 import { withFirebase } from '../../Firebase';
+import { Spinner } from '../../shared';
 
 const AdminUserList = ({ firebase }) => {
   const [loading, setLoading] = useState(false);
@@ -101,16 +102,12 @@ const AdminUserList = ({ firebase }) => {
     </table>
   );
 
-  const renderLoading = (
-    <p className="text-center text-gray-900 w-full">Loading...</p>
-  );
-
   return (
     <div className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-            {loading ? renderLoading : renderTable}
+            {loading ? <Spinner /> : renderTable}
           </div>
         </div>
       </div>

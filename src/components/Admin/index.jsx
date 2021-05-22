@@ -5,7 +5,7 @@ import { compose } from 'recompose';
 import * as ROLES from '../../constants/roles';
 import * as ROUTES from '../../constants/routes';
 import { withAuthorization, withEmailVerification } from '../Session';
-import { HeaderContainer } from '../shared';
+import { HeaderContainer, Container } from '../shared';
 import AdminUserList from './components/user-list';
 import UserDetail from './components/user-detail';
 
@@ -25,17 +25,13 @@ const Admin = () => {
   return (
     <>
       {renderHeader}
-      <main>
-        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-          <div className="px-4 py-6 sm:px-0">
-            {renderDescription}
-            <Switch>
-              <Route exact path={ROUTES.ADMIN_DETAIL} component={UserDetail} />
-              <Route exact path={ROUTES.ADMIN} component={AdminUserList} />
-            </Switch>
-          </div>
-        </div>
-      </main>
+      <Container>
+        {renderDescription}
+        <Switch>
+          <Route exact path={ROUTES.ADMIN_DETAIL} component={UserDetail} />
+          <Route exact path={ROUTES.ADMIN} component={AdminUserList} />
+        </Switch>
+      </Container>
     </>
   );
 };
