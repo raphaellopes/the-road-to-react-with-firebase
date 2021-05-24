@@ -4,7 +4,7 @@ import { withFirebase } from '../../Firebase';
 import { Button } from '../../shared';
 
 const UserDetail = ({ match, location, firebase }) => {
-  const [user, setUser] = useState(location.state.user || null);
+  const [user, setUser] = useState(location.state ? location.state.user : null || null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -14,7 +14,10 @@ const UserDetail = ({ match, location, firebase }) => {
 
     firebase.user(match.params.id)
       .on('value', snapshot => {
-        setUser(snapshot.val());
+        setUser({
+          ...snapshot.val(),
+          uid: snapshot.key
+        });
         setLoading(false);
       });
 
