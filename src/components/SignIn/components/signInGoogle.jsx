@@ -16,10 +16,11 @@ const SignInGoogle = ({ firebase, history }) => {
     firebase
       .signInWithGoogle()
       .then(socialAuthUser => {
-        return firebase.user(socialAuthUser.user.uid)
+        const { user, additionalUserInfo } = socialAuthUser;
+        return additionalUserInfo.isNewUser && firebase.user(user.uid)
           .set({
-            username: socialAuthUser.additionalUserInfo.profile.name,
-            email: socialAuthUser.user.email,
+            username: additionalUserInfo.profile.name,
+            email: user.email,
             roles: {}
           });
       })

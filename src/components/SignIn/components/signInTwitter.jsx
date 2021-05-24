@@ -18,7 +18,8 @@ const SignInTwitter = ({ firebase, history }) => {
     firebase
       .signInWithTwitter()
       .then(socialAuthUser => {
-        return firebase.user(socialAuthUser.user.uid)
+        const { additionalUserInfo } = socialAuthUser;
+        return additionalUserInfo.isNewUser && firebase.user(socialAuthUser.user.uid)
           .set({
             username: socialAuthUser.additionalUserInfo.profile.name,
             email: socialAuthUser.additionalUserInfo.profile.email,
