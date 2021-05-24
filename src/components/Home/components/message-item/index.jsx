@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TrashIcon, PencilIcon, XIcon, CheckIcon } from '@heroicons/react/outline';
 
-import { Button, Input } from '../../../shared';
+import { Button, ButtonSecondary, Input } from '../../../shared';
 
 const MessageItem = ({ message, onRemoveMessage, onEditMessage, authUser }) => {
   const [editMode, setEditMode] = useState(false);
@@ -35,14 +35,13 @@ const MessageItem = ({ message, onRemoveMessage, onEditMessage, authUser }) => {
   );
 
   const renderResetButton = editMode && (
-    <Button
+    <ButtonSecondary
       className="self-start mr-4"
       onClick={handleToggleEditMode}
       full={false}
-      color="red"
     >
       <XIcon className="w-6 h-6" aria-hidden="true" />
-    </Button>
+    </ButtonSecondary>
   );
 
   const renderEditButton = !editMode && (
@@ -56,14 +55,13 @@ const MessageItem = ({ message, onRemoveMessage, onEditMessage, authUser }) => {
   );
 
   const renderRemoveButton = !editMode && (
-    <Button
+    <ButtonSecondary
       className="self-start mr-4"
       onClick={() => onRemoveMessage(message.uid)}
       full={false}
-      color="red"
     >
       <TrashIcon className="w-6 h-6" aria-hidden="true" />
-    </Button>
+    </ButtonSecondary>
   );
 
   const renderActionButtons = isSameAutor && (
