@@ -1,6 +1,6 @@
 import React, { Fragment, useContext } from 'react';
 import { Popover, Transition } from '@headlessui/react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 
 import * as ROUTES from '../../constants/routes';
@@ -8,8 +8,7 @@ import * as ROLES from '../../constants/roles';
 import { AuthUserContext } from '../Session';
 import SignOutButton from '../SignOut';
 
-// @TODO: Refactoring style
-const Navigation = () => {
+const Navigation = ({ location }) => {
   const authUser = useContext(AuthUserContext);
 
   const getSelectedPageClass = selected => selected
@@ -18,10 +17,15 @@ const Navigation = () => {
 
   const isAdmin = authUser && !!authUser.roles[ROLES.ADMIN];
 
+  const isActivePage = page =>
+    page === ROUTES.LANDING
+      ? location.pathname === page
+      : location.pathname.includes(page);
+
   const renderLinksNonAuth = (
     <Link
       to={ROUTES.LANDING}
-      className={getSelectedPageClass(true)}
+      className={getSelectedPageClass(isActivePage(ROUTES.LANDING))}
     >
       Landing
     </Link>
@@ -31,26 +35,26 @@ const Navigation = () => {
     <>
       <Link
         to={ROUTES.LANDING}
-        className={getSelectedPageClass(true)}
+        className={getSelectedPageClass(isActivePage(ROUTES.LANDING))}
       >
         Landing
       </Link>
       <Link
         to={ROUTES.HOME}
-        className={getSelectedPageClass(false)}
+        className={getSelectedPageClass(isActivePage(ROUTES.HOME))}
       >
         Home
       </Link>
       <Link
         to={ROUTES.ACCOUNT}
-        className={getSelectedPageClass(false)}
+        className={getSelectedPageClass(isActivePage(ROUTES.ACCOUNT))}
       >
         Account
       </Link>
       {isAdmin && (
         <Link
           to={ROUTES.ADMIN}
-          className={getSelectedPageClass(false)}
+          className={getSelectedPageClass(isActivePage(ROUTES.ADMIN))}
         >
           Admin
         </Link>
@@ -158,4 +162,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default withRouter(Navigation);
