@@ -13,7 +13,7 @@ the book [The Road to React with Firebase](https://www.robinwieruch.de/the-road-
 - Deploy with firebase
 - For the layout I used [tailwindcss](https://tailwindcss.com/).
 
-## Demo
+## [Demo](https://book-react-with-firebase.web.app/)
 - To see the final result, you can open this [link](https://book-react-with-firebase.web.app/)
 
 > The landing page has no features and this route is public. I will add some
