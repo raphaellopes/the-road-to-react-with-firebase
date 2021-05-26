@@ -1,14 +1,21 @@
 import React from 'react';
 
-import { Container } from '../shared';
+import { Container, Content, HeaderContainer } from '../shared';
 import SignUpForm from './components/form';
 import SignUpLink from './components/link';
 
 const SignUp = () => {
   return (
-    <Container>
-      <SignUpForm />
-    </Container>
+    <>
+      <HeaderContainer>
+        Sign Up
+      </HeaderContainer>
+      <Container>
+        <Content>
+          <SignUpForm />
+        </Content>
+      </Container>
+    </>
   );
 }
 

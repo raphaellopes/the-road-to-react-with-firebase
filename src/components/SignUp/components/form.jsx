@@ -111,27 +111,29 @@ const SignUpForm = ({ firebase, history }) => {
       name="passwordConfirm"
       value={passwordConfirm}
       onChange={e => setPasswordConfirm(e.target.value)}
-      className="rounded-b-md"
+      className="mb-6 rounded-b-md"
       type="password"
       required
     />
   );
 
   const renderOptionAdmin = (
-    <Checkbox
-      id="admin"
-      label="Admin"
-      value={isAdmin}
-      onChange={e => setIsAdmin(e.target.checked)}
-    />
+      <Checkbox
+        id="admin"
+        label="Admin"
+        value={isAdmin}
+        onChange={e => setIsAdmin(e.target.checked)}
+      />
   );
 
   const renderFields = (
-    <div className="rounded-md shadow-sm -space-y-px">
-      {renderUsernameField}
-      {renderEmailField}
-      {renderPasswordField}
-      {renderPasswordConfirmField}
+    <div className="rounded-md shadow-sm">
+      <div className="mb-2 -space-y-px">
+        {renderUsernameField}
+        {renderEmailField}
+        {renderPasswordField}
+        {renderPasswordConfirmField}
+      </div>
       {renderOptionAdmin}
     </div>
   );
@@ -148,14 +150,6 @@ const SignUpForm = ({ firebase, history }) => {
     </div>
   );
 
-  const renderHeader = (
-    <div>
-      <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-        Create an account
-      </h2>
-    </div>
-  );
-
   const renderError = error && (
     <FormErrorBox>
       {error.message}
@@ -168,7 +162,6 @@ const SignUpForm = ({ firebase, history }) => {
       onSubmit={handleSubmit}
       method="POST"
     >
-      {renderHeader}
       {renderError}
       {renderFields}
       {renderSubmitButton}

@@ -1,13 +1,20 @@
 import React from 'react';
 
-import { Container } from '../shared';
+import { Container, Content, HeaderContainer } from '../shared';
 import PasswordForgetForm from './components/form';
 import PasswordForgetLink from './components/link';
 
 const PasswordForget = () => (
-  <Container>
-    <PasswordForgetForm />
-  </Container>
+  <>
+    <HeaderContainer>
+      Password Forget
+    </HeaderContainer>
+    <Container>
+      <Content>
+        <PasswordForgetForm />
+      </Content>
+    </Container>
+  </>
 );
 
 export default PasswordForget;

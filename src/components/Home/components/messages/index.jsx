@@ -112,7 +112,7 @@ const Messages = ({ firebase }) => {
     <div className="fixed bottom-0 left-0 right-0 bg-white">
       <form
         onSubmit={handleSubmit}
-      className="flex px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8"
+        className="flex px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8"
       >
         <Input
           className="flex-1 mr-4 rounded"

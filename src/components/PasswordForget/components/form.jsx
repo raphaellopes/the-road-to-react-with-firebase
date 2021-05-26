@@ -31,8 +31,8 @@ const PasswordForgetForm = ({ firebase }) => {
   // renders
   const renderHeader = (
     <div>
-      <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-        Password Forget
+      <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900">
+        Password Reset
       </h2>
     </div>
   );

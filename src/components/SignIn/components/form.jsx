@@ -36,14 +36,6 @@ const SignInForm = ({ firebase, history }) => {
   }
 
   // renders
-  const renderHeader = (
-    <div>
-      <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-        Sign in
-      </h2>
-    </div>
-  );
-
   const renderError = error && (
     <FormErrorBox>
       {error.message}
@@ -102,7 +94,6 @@ const SignInForm = ({ firebase, history }) => {
       onSubmit={handleSubmit}
       method="POST"
     >
-      {renderHeader}
       {renderError}
       {renderFields}
       {renderSubmitButton}
